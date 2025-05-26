@@ -2,6 +2,9 @@ package com.homework.employeetracker.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.homework.employeetracker.data.entity.Employee;
@@ -67,11 +70,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeResponse> searchEmployees(SearchEmployeeRequest request, Long pageNumber, Long pageSize) {
-        return List.of();
+    public List<EmployeeResponse> searchEmployees(SearchEmployeeRequest request, Integer pageNumber, Integer pageSize) {
+        log.debug("Search employees, request {}, pageNumber {}, pageSize {}", request, pageNumber, pageSize);
+        Page<Employee> employees = employeeRepository.searchEmployees(request.name(),
+            request.teamName(),
+            request.teamLead(),
+            PageRequest.of(pageNumber, pageSize, Sort.by("id")));
+
+        return employees.stream().map(EmployeeResponse::new).toList();
     }
 
-    public Team findTeam(Long teamId) {
+    private Team findTeam(Long teamId) {
         if (teamId == null) return null;
         return teamRepository.findById(teamId)
             .orElseThrow(() -> new NotFoundException(Team.class));

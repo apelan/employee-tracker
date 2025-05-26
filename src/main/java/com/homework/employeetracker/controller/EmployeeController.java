@@ -35,11 +35,11 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @Operation(summary = "Search employees")
     public List<EmployeeResponse> searchEmployees(@Valid @RequestBody SearchEmployeeRequest request,
-        @RequestParam(defaultValue = "0", required = false) Long pageNumber,
-        @RequestParam(defaultValue = "10", required = false) Long pageSize) {
+        @RequestParam(defaultValue = "0", required = false) Integer pageNumber,
+        @RequestParam(defaultValue = "10", required = false) Integer pageSize) {
         return employeeService.searchEmployees(request, pageNumber, pageSize);
     }
 

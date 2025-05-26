@@ -13,6 +13,6 @@ public interface EmployeeService {
     void update(UpdateEmployeeRequest request);
     void delete(Long employeeId);
     EmployeeResponse findById(Long employeeId);
-    List<EmployeeResponse> searchEmployees(SearchEmployeeRequest request, Long pageNumber, Long pageSize);
+    List<EmployeeResponse> searchEmployees(SearchEmployeeRequest request, Integer pageNumber, Integer pageSize);
 
 }
