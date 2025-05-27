@@ -1,0 +1,15 @@
+# Configuration for prod environment
+
+# Database configuration
+spring:
+  datasource:
+    url: { DB_URL } # should be fetched from some secret manager
+    username: { DB_USERNAME }  # should be fetched from some secret manager
+    password: { DB_PASSWORD }  # should be fetched from some secret manager
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    com.homework.employeetracker: INFO
