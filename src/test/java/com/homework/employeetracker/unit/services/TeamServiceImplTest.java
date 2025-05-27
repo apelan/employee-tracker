@@ -24,7 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.homework.employeetracker.data.entity.Employee;
 import com.homework.employeetracker.data.entity.Team;
 import com.homework.employeetracker.data.repository.EmployeeRepository;
 import com.homework.employeetracker.data.repository.TeamRepository;
@@ -83,7 +82,8 @@ class TeamServiceImplTest {
 
     @Test
     void givenRequest_whenUpdate_thenAssertTeamUpdated() {
-        UpdateTeamRequest request = new UpdateTeamRequest(TEAM_ID, TEAM_NAME, null);
+        UpdateTeamRequest request = new UpdateTeamRequest(TEAM_ID, TEAM_NAME, EMPLOYEE_ID);
+        when(employeeRepository.findById(EMPLOYEE_ID)).thenReturn(Optional.of(mockEmployee()));
         when(teamRepository.findById(TEAM_ID)).thenReturn(Optional.of(mockTeam()));
 
         teamService.update(request);

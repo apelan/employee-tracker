@@ -37,21 +37,31 @@ public class TeamServiceImpl implements TeamService {
             throw new TeamAlreadyExistsException();
         }
 
+        Employee teamLead = findTeamLead(request.teamLeadId());
+
         Team team = new Team();
         team.setName(request.name());
-        team.setLead(findTeamLead(request.teamLeadId()));
+        team.setLead(teamLead);
         teamRepository.save(team);
+
+        teamLead.setTeam(team);
+        employeeRepository.save(teamLead);
     }
 
     @Override
     public void update(UpdateTeamRequest request) {
         log.debug("Updating team, request {}", request);
 
+        Employee teamLead = findTeamLead(request.teamLeadId());
+
         Team team = teamRepository.findById(request.id())
             .orElseThrow(() -> new NotFoundException(Team.class));
         team.setName(request.name());
-        team.setLead(findTeamLead(request.teamLeadId()));
+        team.setLead(teamLead);
         teamRepository.save(team);
+
+        teamLead.setTeam(team);
+        employeeRepository.save(teamLead);
     }
 
     @Override
